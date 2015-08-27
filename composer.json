@@ -8,6 +8,9 @@
     "require": {
         "php": ">=5.3.0"
     },
+    "replace": {
+      "php-activerecord/php-activerecord": "~1.1.0"
+    },
     "autoload": {
         "files": [ "ActiveRecord.php" ]
     }
