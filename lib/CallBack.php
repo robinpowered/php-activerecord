@@ -105,7 +105,6 @@ class CallBack
 	 * Creates a CallBack.
 	 *
 	 * @param string $model_class_name The name of a {@link Model} class
-	 * @return CallBack
 	 */
 	public function __construct($model_class_name)
 	{
