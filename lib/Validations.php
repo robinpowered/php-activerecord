@@ -255,7 +255,7 @@ class Validations
 		{
 			$options = array_merge($configuration, $attr);
 			$attribute = $options[0];
-			$var = $this->model->$attribute;
+			$var = $this->model->read_attribute($attribute);
 
 			if (isset($options['in']))
 				$enum = $options['in'];
@@ -314,7 +314,7 @@ class Validations
 		{
 			$options = array_merge($configuration, $attr);
 			$attribute = $options[0];
-			$var = $this->model->$attribute;
+			$var = $this->model->read_attribute($attribute);
 
 			$numericalityOptions = array_intersect_key(self::$ALL_NUMERICALITY_CHECKS, $options);
 
@@ -420,7 +420,7 @@ class Validations
 		{
 			$options = array_merge($configuration, $attr);
 			$attribute = $options[0];
-			$var = $this->model->$attribute;
+			$var = $this->model->read_attribute($attribute);
 
 			if (is_null($options['with']) || !is_string($options['with']) || !is_string($options['with']))
 				throw new ValidationsArgumentError('A regular expression must be supplied as the [with] option of the configuration array.');
@@ -486,7 +486,7 @@ class Validations
 			}
 
 			$attribute = $options[0];
-			$var = $this->model->$attribute;
+			$var = $this->model->read_attribute($attribute);
 			if ($this->is_null_with_option($var, $options) || $this->is_blank_with_option($var, $options))
 				continue;
 			if ($range_options[0] == 'within' || $range_options[0] == 'in')
@@ -509,7 +509,7 @@ class Validations
 				if (is_float($option))
 					throw new  ValidationsArgumentError("$range_option value cannot use a float for length.");
 
-				if (!($range_option == 'maximum' && is_null($this->model->$attribute)))
+				if (!($range_option == 'maximum' && is_null($var)))
 				{
 					$messageOptions = array('is' => 'wrong_length', 'minimum' => 'too_short', 'maximum' => 'too_long');
 
@@ -520,8 +520,7 @@ class Validations
 					
 
 					$message = str_replace('%d', $option, $message);
-					$attribute_value = $this->model->$attribute;
-					$len = strlen($attribute_value);
+					$len = strlen($var);
 					$value = (int)$attr[$range_option];
 
 					if ('maximum' == $range_option && $len > $value)
@@ -601,7 +600,7 @@ class Validations
 				$field = $this->model->get_real_attribute_name($field);
 				$quoted_field = $connection->quote_name($field);
 				$sql .= " AND {$quoted_field}=?";
-				array_push($conditions,$this->model->$field);
+				array_push($conditions,$this->model->read_attribute($field));
 			}
 
 			$conditions[0] = $sql;
@@ -703,7 +702,8 @@ class Errors implements IteratorAggregate
 		if (empty($msg))
 			$msg = self::$DEFAULT_ERROR_MESSAGES['empty'];
 
-		if (empty($this->model->$attribute))
+		$attribute = $this->model->read_attribute($attribute);
+		if (empty($attribute))
 			$this->add($attribute, $msg);
 	}
 
@@ -732,7 +732,8 @@ class Errors implements IteratorAggregate
 		if (!$msg)
 			$msg = self::$DEFAULT_ERROR_MESSAGES['blank'];
 
-		if (($value = $this->model->$attribute) === '' || $value === null)
+		$value = $this->model->read_attribute($attribute);
+		if ($value === '' || $value === null)
 			$this->add($attribute, $msg);
 	}
 
