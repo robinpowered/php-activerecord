@@ -732,7 +732,8 @@ class Errors implements IteratorAggregate
 		if (!$msg)
 			$msg = self::$DEFAULT_ERROR_MESSAGES['blank'];
 
-		if (($value = $this->model->read_attribute($attribute)) === '' || $value === null)
+		$value = $this->model->read_attribute($attribute);
+		if ($value === '' || $value === null)
 			$this->add($attribute, $msg);
 	}
 
