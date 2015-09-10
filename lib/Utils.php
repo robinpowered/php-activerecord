@@ -34,7 +34,7 @@
  */
 namespace ActiveRecord;
 
-use \Closure;
+use Closure;
 
 function classify($class_name, $singularize=false)
 {
@@ -117,7 +117,7 @@ function has_absolute_namespace($class_name)
  * Returns true if all values in $haystack === $needle
  * @param $needle
  * @param $haystack
- * @return unknown_type
+ * @return boolean
  */
 function all($needle, array $haystack)
 {

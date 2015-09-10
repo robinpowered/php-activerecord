@@ -1,6 +1,5 @@
 <?php
 namespace ActiveRecord;
-use Closure;
 
 /**
  * Cache::get('the-cache-key', function() {

@@ -3,6 +3,7 @@
  * @package ActiveRecord
  */
 namespace ActiveRecord;
+use Closure;
 
 /**
  * The base class for your models.
@@ -234,7 +235,7 @@ class Model
 	 * Constructs a model.
 	 *
 	 * When a user instantiates a new object (e.g.: it was not ActiveRecord that instantiated via a find)
-	 * then @var $attributes will be mapped according to the schema's defaults. Otherwise, the given
+	 * then $attributes be mapped according to the schema's defaults. Otherwise, the given
 	 * $attributes will be mapped via set_attributes_via_mass_assignment.
 	 *
 	 * <code>
@@ -571,7 +572,7 @@ class Model
 	/**
 	 * Retrieve the primary key name.
 	 *
-	 * @param boolean Set to true to return the first value in the pk array only
+	 * @param boolean $first Set to true to return the first value in the pk array only
 	 * @return string The primary key for the model
 	 */
 	public function get_primary_key($first=false)
@@ -657,7 +658,7 @@ class Model
 	 *
 	 * @param string $name Name of an attribute
 	 * @param array $delegate An array containing delegate data
-	 * @return delegated attribute name or null
+	 * @return string|null delegated attribute name or null
 	 */
 	private function is_delegated($name, &$delegate)
 	{
@@ -693,7 +694,7 @@ class Model
 	/**
 	 * Throws an exception if this model is set to readonly.
 	 *
-	 * @throws ActiveRecord\ReadOnlyException
+	 * @throws \ActiveRecord\ReadOnlyException
 	 * @param string $method_name Name of method that was invoked on model for exception message
 	 */
 	private function verify_not_readonly($method_name)
@@ -1151,7 +1152,7 @@ class Model
 	/**
 	 * Passing $guard_attributes as true will throw an exception if an attribute does not exist.
 	 *
-	 * @throws ActiveRecord\UndefinedPropertyException
+	 * @throws \ActiveRecord\UndefinedPropertyException
 	 * @param array $attributes An array in the form array(name => value, ...)
 	 * @param boolean $guard_attributes Flag of whether or not protected/non-accessible attributes should be guarded
 	 */
@@ -1208,8 +1209,8 @@ class Model
 	 *
 	 * @internal This should <strong>only</strong> be used by eager load
 	 * @param Model $model
-	 * @param $name of relationship for this table
-	 * @return void
+	 * @param string $name of relationship for this table
+	 * @return Model|array
 	 */
 	public function set_relationship_from_eager_load(Model $model=null, $name)
 	{

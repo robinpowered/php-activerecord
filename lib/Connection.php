@@ -11,6 +11,8 @@ require_once 'Column.php';
 use PDO;
 use PDOException;
 use Closure;
+use PDOStatement;
+use stdClass;
 
 /**
  * The base class for database connection adapters.
@@ -160,7 +162,7 @@ abstract class Connection
 	 * </code>
 	 *
 	 * @param string $connection_url A connection URL
-	 * @return object the parsed URL as an object.
+	 * @return stdClass the parsed URL as an object.
 	 */
 	public static function parse_connection_url($connection_url)
 	{
@@ -297,7 +299,7 @@ abstract class Connection
 	 *
 	 * @param string $sql Raw SQL string to execute.
 	 * @param array &$values Optional array of bind values
-	 * @return mixed A result set object
+	 * @return PDOStatement A result set object
 	 */
 	public function query($sql, &$values=array())
 	{
