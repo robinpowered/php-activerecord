@@ -128,7 +128,10 @@ class Column
 					return $value;
 
 				if ($value instanceof \DateTime)
-					return new DateTime($value->format('Y-m-d H:i:s'), $value->getTimezone());
+					return new DateTime(
+						$value->format(Connection::DATETIME_TRANSLATE_FORMAT),
+						$value->getTimezone()
+					);
 
 				return $connection->string_to_datetime($value);
 		}
