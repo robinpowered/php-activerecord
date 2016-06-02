@@ -84,7 +84,7 @@ class DateTime extends \DateTime
 	 * @param string $format A format string accepted by get_format()
 	 * @return string formatted date and time string
 	 */
-	public function format($format=null)
+	public function format($format = null)
 	{
 		return parent::format(self::get_format($format));
 	}
@@ -99,15 +99,17 @@ class DateTime extends \DateTime
 	 * @param string $format A pre-defined string format or a raw format string
 	 * @return string a format string
 	 */
-	public static function get_format($format=null)
+	public static function get_format($format = null)
 	{
 		// use default format if no format specified
-		if (!$format)
+		if (!$format) {
 			$format = self::$DEFAULT_FORMAT;
+		}
 
 		// format is a friendly
-		if (array_key_exists($format, self::$FORMATS))
+		if (array_key_exists($format, self::$FORMATS)) {
 			 return self::$FORMATS[$format];
+		}
 
 		// raw format
 		return $format;
@@ -120,8 +122,9 @@ class DateTime extends \DateTime
 
 	private function flag_dirty()
 	{
-		if ($this->model)
+		if ($this->model) {
 			$this->model->flag_dirty($this->attribute_name);
+		}
 	}
 
 	public function setDate($year, $month, $day)
@@ -130,7 +133,7 @@ class DateTime extends \DateTime
 		return parent::setDate($year, $month, $day);
 	}
 
-	public function setISODate($year, $week , $day = 1)
+	public function setISODate($year, $week, $day = 1)
 	{
 		$this->flag_dirty();
 		return parent::setISODate($year, $week, $day);
@@ -153,13 +156,13 @@ class DateTime extends \DateTime
 		$this->flag_dirty();
 		return parent::setTimezone($timezone);
 	}
-	
+
 	public function modify($modify)
 	{
 		$this->flag_dirty();
 		return parent::modify($modify);
 	}
-	
+
 	public function add($interval)
 	{
 		$this->flag_dirty();
@@ -171,5 +174,4 @@ class DateTime extends \DateTime
 		$this->flag_dirty();
 		return parent::sub($interval);
 	}
-
 }
