@@ -84,7 +84,7 @@ class DateTime extends \DateTime
 	 * @param string $format A format string accepted by get_format()
 	 * @return string formatted date and time string
 	 */
-	public function format($format=null)
+	public function format($format = null)
 	{
 		return parent::format(self::get_format($format));
 	}
@@ -99,15 +99,17 @@ class DateTime extends \DateTime
 	 * @param string $format A pre-defined string format or a raw format string
 	 * @return string a format string
 	 */
-	public static function get_format($format=null)
+	public static function get_format($format = null)
 	{
 		// use default format if no format specified
-		if (!$format)
+		if (!$format) {
 			$format = self::$DEFAULT_FORMAT;
+		}
 
 		// format is a friendly
-		if (array_key_exists($format, self::$FORMATS))
+		if (array_key_exists($format, self::$FORMATS)) {
 			 return self::$FORMATS[$format];
+		}
 
 		// raw format
 		return $format;
@@ -120,32 +122,56 @@ class DateTime extends \DateTime
 
 	private function flag_dirty()
 	{
-		if ($this->model)
+		if ($this->model) {
 			$this->model->flag_dirty($this->attribute_name);
+		}
 	}
 
 	public function setDate($year, $month, $day)
 	{
 		$this->flag_dirty();
-		call_user_func_array(array($this,'parent::setDate'),func_get_args());
+		return parent::setDate($year, $month, $day);
 	}
 
-	public function setISODate($year, $week , $day=null)
+	public function setISODate($year, $week, $day = 1)
 	{
 		$this->flag_dirty();
-		call_user_func_array(array($this,'parent::setISODate'),func_get_args());
+		return parent::setISODate($year, $week, $day);
 	}
 
-	public function setTime($hour, $minute, $second=null)
+	public function setTime($hour, $minute, $second = 0)
 	{
 		$this->flag_dirty();
-		call_user_func_array(array($this,'parent::setTime'),func_get_args());
+		return parent::setTime($hour, $minute, $second);
 	}
 
 	public function setTimestamp($unixtimestamp)
 	{
 		$this->flag_dirty();
-		call_user_func_array(array($this,'parent::setTimestamp'),func_get_args());
+		return parent::setTimestamp($unixtimestamp);
+	}
+
+	public function setTimezone($timezone)
+	{
+		$this->flag_dirty();
+		return parent::setTimezone($timezone);
+	}
+
+	public function modify($modify)
+	{
+		$this->flag_dirty();
+		return parent::modify($modify);
+	}
+
+	public function add($interval)
+	{
+		$this->flag_dirty();
+		return parent::add($interval);
+	}
+
+	public function sub($interval)
+	{
+		$this->flag_dirty();
+		return parent::sub($interval);
 	}
 }
-?>
