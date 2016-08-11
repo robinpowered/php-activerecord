@@ -43,6 +43,14 @@ abstract class Connection
 	 */
 	public $last_query;
 	/**
+	 * The total cumulative execution time (in millis) for queries.
+	 *
+	 * This is logged after each query if logging is enabled.
+	 *
+	 * @var string
+	 */
+	public $total_elapsed_query_time;
+	/**
 	 * Switch for logging.
 	 *
 	 * @var bool
@@ -315,6 +323,7 @@ abstract class Connection
 	{
 		if ($this->logging)
 		{
+			$start = microtime(true);
 			$this->logger->log($sql);
 			if ( $values ) $this->logger->log($values);
 		}
@@ -335,6 +344,18 @@ abstract class Connection
 				throw new DatabaseException($this);
 		} catch (PDOException $e) {
 			throw new DatabaseException($e);
+		} finally {
+			if (isset($start) && $this->logging) {
+				$time_elapsed_ms = (microtime(true) - $start) * 1000;
+				$this->total_elapsed_query_time += $time_elapsed_ms;
+				$this->logger->log(
+					sprintf(
+						'Query took %dms to execute. (%dms total)',
+						$time_elapsed_ms,
+						$this->total_elapsed_query_time
+					)
+				);
+			}
 		}
 		return $sth;
 	}
