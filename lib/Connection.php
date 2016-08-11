@@ -8,9 +8,10 @@ namespace ActiveRecord;
 
 require_once 'Column.php';
 
+use Closure;
+use Exception;
 use PDO;
 use PDOException;
-use Closure;
 use PDOStatement;
 use stdClass;
 
@@ -328,6 +329,18 @@ abstract class Connection
 			if ( $values ) $this->logger->log($values);
 		}
 
+		$log_execution_time = function($start) {
+			$time_elapsed_ms = (microtime(true) - $start) * 1000;
+			$this->total_elapsed_query_time += $time_elapsed_ms;
+			$this->logger->log(
+				sprintf(
+					'Query took %dms to execute. (%dms total)',
+					$time_elapsed_ms,
+					$this->total_elapsed_query_time
+				)
+			);
+		};
+
 		$this->last_query = $sql;
 
 		try {
@@ -342,20 +355,22 @@ abstract class Connection
 		try {
 			if (!$sth->execute($values))
 				throw new DatabaseException($this);
-		} catch (PDOException $e) {
-			throw new DatabaseException($e);
-		} finally {
+
 			if (isset($start) && $this->logging) {
-				$time_elapsed_ms = (microtime(true) - $start) * 1000;
-				$this->total_elapsed_query_time += $time_elapsed_ms;
-				$this->logger->log(
-					sprintf(
-						'Query took %dms to execute. (%dms total)',
-						$time_elapsed_ms,
-						$this->total_elapsed_query_time
-					)
-				);
+				$log_execution_time($start);
 			}
+		} catch (PDOException $e) {
+			if (isset($start) && $this->logging) {
+				$log_execution_time($start);
+			}
+
+			throw new DatabaseException($e);
+		} catch (Exception $e) {
+			if (isset($start) && $this->logging) {
+				$log_execution_time($start);
+			}
+
+			return $e;
 		}
 		return $sth;
 	}
