@@ -370,7 +370,7 @@ abstract class Connection
 				$log_execution_time($start);
 			}
 
-			return $e;
+			throw $e;
 		}
 		return $sth;
 	}
