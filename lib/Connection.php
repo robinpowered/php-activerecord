@@ -8,9 +8,10 @@ namespace ActiveRecord;
 
 require_once 'Column.php';
 
+use Closure;
+use Exception;
 use PDO;
 use PDOException;
-use Closure;
 use PDOStatement;
 use stdClass;
 
@@ -42,6 +43,14 @@ abstract class Connection
 	 * @var string
 	 */
 	public $last_query;
+	/**
+	 * The total cumulative execution time (in millis) for queries.
+	 *
+	 * This is logged after each query if logging is enabled.
+	 *
+	 * @var string
+	 */
+	public $total_elapsed_query_time;
 	/**
 	 * Switch for logging.
 	 *
@@ -315,9 +324,22 @@ abstract class Connection
 	{
 		if ($this->logging)
 		{
+			$start = microtime(true);
 			$this->logger->log($sql);
 			if ( $values ) $this->logger->log($values);
 		}
+
+		$log_execution_time = function($start) {
+			$time_elapsed_ms = (microtime(true) - $start) * 1000;
+			$this->total_elapsed_query_time += $time_elapsed_ms;
+			$this->logger->log(
+				sprintf(
+					'Query took %dms to execute. (%dms total)',
+					$time_elapsed_ms,
+					$this->total_elapsed_query_time
+				)
+			);
+		};
 
 		$this->last_query = $sql;
 
@@ -333,8 +355,22 @@ abstract class Connection
 		try {
 			if (!$sth->execute($values))
 				throw new DatabaseException($this);
+
+			if (isset($start) && $this->logging) {
+				$log_execution_time($start);
+			}
 		} catch (PDOException $e) {
+			if (isset($start) && $this->logging) {
+				$log_execution_time($start);
+			}
+
 			throw new DatabaseException($e);
+		} catch (Exception $e) {
+			if (isset($start) && $this->logging) {
+				$log_execution_time($start);
+			}
+
+			throw $e;
 		}
 		return $sth;
 	}
