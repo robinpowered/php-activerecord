@@ -322,26 +322,12 @@ abstract class Connection
 	 */
 	public function query($sql, &$values=array())
 	{
+		$this->last_query = $sql;
+
 		if ($this->logging)
 		{
-			$start = microtime(true);
-			$this->logger->log($sql);
-			if ( $values ) $this->logger->log($values);
+			$this->logger->log($sql, $values);
 		}
-
-		$log_execution_time = function($start) {
-			$time_elapsed_ms = (microtime(true) - $start) * 1000;
-			$this->total_elapsed_query_time += $time_elapsed_ms;
-			$this->logger->log(
-				sprintf(
-					'Query took %dms to execute. (%dms total)',
-					$time_elapsed_ms,
-					$this->total_elapsed_query_time
-				)
-			);
-		};
-
-		$this->last_query = $sql;
 
 		try {
 			if (!($sth = $this->connection->prepare($sql)))
@@ -356,18 +342,18 @@ abstract class Connection
 			if (!$sth->execute($values))
 				throw new DatabaseException($this);
 
-			if (isset($start) && $this->logging) {
-				$log_execution_time($start);
+			if ($this->logging) {
+				$this->logger->done();
 			}
 		} catch (PDOException $e) {
-			if (isset($start) && $this->logging) {
-				$log_execution_time($start);
+			if ($this->logging) {
+				$this->logger->done();
 			}
 
 			throw new DatabaseException($e);
 		} catch (Exception $e) {
-			if (isset($start) && $this->logging) {
-				$log_execution_time($start);
+			if ($this->logging) {
+				$this->logger->done();
 			}
 
 			throw $e;
