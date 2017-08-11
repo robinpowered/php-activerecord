@@ -8,6 +8,7 @@ if (!defined('PHP_ACTIVERECORD_AUTOLOAD_PREPEND'))
 	define('PHP_ACTIVERECORD_AUTOLOAD_PREPEND',true);
 
 require __DIR__.'/lib/Singleton.php';
+require __DIR__.'/lib/Logger.php';
 require __DIR__.'/lib/Config.php';
 require __DIR__.'/lib/Utils.php';
 require __DIR__.'/lib/DateTime.php';
