@@ -66,9 +66,9 @@ class Config extends Singleton
 	private $logging = false;
 
 	/**
-	 * Contains a Logger object that must impelement a log() method.
+	 * Contains a query logger.
 	 *
-	 * @var object
+	 * @var Logger
 	 */
 	private $logger;
 
@@ -228,17 +228,11 @@ class Config extends Singleton
 	/**
 	 * Sets the logger object for future SQL logging
 	 *
-	 * @param object $logger
+	 * @param Logger $logger
 	 * @return void
-	 * @throws ConfigException if Logger objecct does not implement public log()
 	 */
-	public function set_logger($logger)
+	public function set_logger(Logger $logger)
 	{
-		$klass = Reflections::instance()->add($logger)->get($logger);
-
-		if (!$klass->getMethod('log') || !$klass->getMethod('log')->isPublic())
-			throw new ConfigException("Logger object must implement a public log method");
-
 		$this->logger = $logger;
 	}
 
@@ -255,7 +249,7 @@ class Config extends Singleton
 	/**
 	 * Returns the logger
 	 *
-	 * @return object
+	 * @return Logger
 	 */
 	public function get_logger()
 	{

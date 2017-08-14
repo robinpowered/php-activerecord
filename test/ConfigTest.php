@@ -3,7 +3,7 @@
 use ActiveRecord\Config;
 use ActiveRecord\ConfigException;
 
-class TestLogger
+class NoOpTestLogger
 {
 	private function log() {}
 }
@@ -85,7 +85,7 @@ class ConfigTest extends SnakeCase_PHPUnit_Framework_TestCase
 	public function test_logger_object_must_implement_log_method()
 	{
 		try {
-			$this->config->set_logger(new TestLogger);
+			$this->config->set_logger(new NoOpTestLogger);
 			$this->fail();
 		} catch (ConfigException $e) {
 			$this->assert_equals($e->getMessage(), "Logger object must implement a public log method");
