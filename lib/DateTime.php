@@ -156,7 +156,7 @@ class DateTime extends \DateTime
 	public function setTime($hour, $minute, $second = 0, $microseconds = 0)
 	{
 		$this->flag_dirty();
-		return parent::setTime($hour, $minute, $second);
+		return parent::setTime($hour, $minute, $second, $microseconds);
 	}
 
 	public function setTimestamp($unixtimestamp)
