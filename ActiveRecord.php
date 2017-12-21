@@ -7,11 +7,16 @@ define('PHP_ACTIVERECORD_VERSION_ID','1.0');
 if (!defined('PHP_ACTIVERECORD_AUTOLOAD_PREPEND'))
 	define('PHP_ACTIVERECORD_AUTOLOAD_PREPEND',true);
 
+if (PHP_VERSION_ID > 70100) {
+    require __DIR__.'/lib/DateTime71.php';
+} else {
+    require __DIR__.'/lib/DateTime.php';
+}
+
 require __DIR__.'/lib/Singleton.php';
 require __DIR__.'/lib/Logger.php';
 require __DIR__.'/lib/Config.php';
 require __DIR__.'/lib/Utils.php';
-require __DIR__.'/lib/DateTime.php';
 require __DIR__.'/lib/Model.php';
 require __DIR__.'/lib/Table.php';
 require __DIR__.'/lib/ConnectionManager.php';
