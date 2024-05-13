@@ -1440,7 +1440,7 @@ class Model
 	 */
 	public static function exists(/* ... */)
 	{
-		return call_user_func_array('static::count',func_get_args()) > 0 ? true : false;
+		return call_user_func_array('static::count',func_get_args()) > 0;
 	}
 
 	/**

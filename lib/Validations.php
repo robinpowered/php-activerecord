@@ -81,8 +81,9 @@ class Validations
 		'odd' => null,
 		'even' => null
 	);
+    private $klass;
 
-	/**
+    /**
 	 * Constructs a {@link Validations} object.
 	 *
 	 * @param Model $model The model to validate
@@ -494,7 +495,7 @@ class Validations
 				$range = $options[$range_options[0]];
 
 				if (!(Utils::is_a('range', $range)))
-					throw new  ValidationsArgumentError("$range_option must be an array composing a range of numbers with key [0] being less than key [1]");
+					throw new  ValidationsArgumentError("range_option must be an array composing a range of numbers with key [0] being less than key [1]");
 				$range_options = array('minimum', 'maximum');
 				$attr['minimum'] = $range[0];
 				$attr['maximum'] = $range[1];

@@ -445,8 +445,10 @@ class HasMany extends AbstractRelationship
 
 	protected $primary_key;
 
-	private $has_one = false;
+	private bool $has_one = false;
 	private $through;
+
+	private bool $initialized;
 
 	/**
 	 * Constructs a {@link HasMany} relationship.

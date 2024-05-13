@@ -153,8 +153,8 @@ class DateTime extends \DateTime
 		return parent::setISODate($year, $week, $day);
 	}
 
-	public function setTime($hour, $minute, $second = 0)
-	{
+	public function setTime($hour, $minute, $second = 0, $microsecond = 0): \DateTime|DateTime
+    {
 		$this->flag_dirty();
 		return parent::setTime($hour, $minute, $second);
 	}

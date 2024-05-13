@@ -38,7 +38,7 @@ class DateTime extends \DateTime
 	/**
 	 * Default format used for format() and __toString()
 	 */
-	public static $DEFAULT_FORMAT = 'rfc2822';
+	public static string $DEFAULT_FORMAT = 'rfc2822';
 
 	/**
 	 * Pre-defined format strings.
@@ -64,8 +64,8 @@ class DateTime extends \DateTime
 	private $model;
 	private $attribute_name;
 
-	public function attribute_of($model, $attribute_name)
-	{
+	public function attribute_of($model, $attribute_name): void
+    {
 		$this->model = $model;
 		$this->attribute_name = $attribute_name;
 	}
