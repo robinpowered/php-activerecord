@@ -79,13 +79,13 @@ class DateTime extends \DateTime
 	 * $datetime->format('Y-m-d');  # Y-m-d
 	 * </code>
 	 *
-	 * @see FORMATS
-	 * @see get_format
-	 * @param string $format A format string accepted by get_format()
+	 * @param string|null $format A format string accepted by get_format()
 	 * @return string formatted date and time string
+	 *@see FORMATS
+	 * @see get_format
 	 */
-	public function format($format = null)
-	{
+	public function format(string $format = null): string
+    {
 		return parent::format(self::get_format($format));
 	}
 
@@ -95,12 +95,12 @@ class DateTime extends \DateTime
 	 * If $format is a pre-defined format in $FORMATS it will return that otherwise
 	 * it will assume $format is a format string itself.
 	 *
-	 * @see FORMATS
-	 * @param string $format A pre-defined string format or a raw format string
+	 * @param string|null $format A pre-defined string format or a raw format string
 	 * @return string a format string
+	 *@see FORMATS
 	 */
-	public static function get_format($format = null)
-	{
+	public static function get_format(string $format = null): ?string
+    {
 		// use default format if no format specified
 		if (!$format) {
 			$format = self::$DEFAULT_FORMAT;
@@ -134,57 +134,57 @@ class DateTime extends \DateTime
 		$this->attribute_name = null;
 	}
 
-	private function flag_dirty()
-	{
+	private function flag_dirty(): void
+    {
 		if ($this->model) {
 			$this->model->flag_dirty($this->attribute_name);
 		}
 	}
 
-	public function setDate($year, $month, $day)
-	{
+	public function setDate(int $year, int $month, int $day): \DateTime|DateTime
+    {
 		$this->flag_dirty();
 		return parent::setDate($year, $month, $day);
 	}
 
-	public function setISODate($year, $week, $day = 1)
-	{
+	public function setISODate(int $year, int $week, int $day = 1): \DateTime|DateTime
+    {
 		$this->flag_dirty();
 		return parent::setISODate($year, $week, $day);
 	}
 
-	public function setTime($hour, $minute, $second = 0, $microseconds = 0)
-	{
+	public function setTime(int $hour, int $minute, int $second = 0, int $microsecond = 0): \DateTime|DateTime
+    {
 		$this->flag_dirty();
-		return parent::setTime($hour, $minute, $second, $microseconds);
+		return parent::setTime($hour, $minute, $second, $microsecond);
 	}
 
-	public function setTimestamp($unixtimestamp)
-	{
+	public function setTimestamp(int $timestamp): \DateTime|DateTime
+    {
 		$this->flag_dirty();
-		return parent::setTimestamp($unixtimestamp);
+		return parent::setTimestamp($timestamp);
 	}
 
-	public function setTimezone($timezone)
-	{
+	public function setTimezone(\DateTimeZone $timezone): \DateTime|DateTime
+    {
 		$this->flag_dirty();
 		return parent::setTimezone($timezone);
 	}
 
-	public function modify($modify)
-	{
+	public function modify(string $modifier): \DateTime|false
+    {
 		$this->flag_dirty();
-		return parent::modify($modify);
+		return parent::modify($modifier);
 	}
 
-	public function add($interval)
-	{
+	public function add(\DateInterval $interval): \DateTime|DateTime
+    {
 		$this->flag_dirty();
 		return parent::add($interval);
 	}
 
-	public function sub($interval)
-	{
+	public function sub(\DateInterval $interval): \DateTime|DateTime
+    {
 		$this->flag_dirty();
 		return parent::sub($interval);
 	}

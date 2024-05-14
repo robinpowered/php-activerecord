@@ -159,10 +159,10 @@ class DateTime extends \DateTime
 		return parent::setTime($hour, $minute, $second);
 	}
 
-	public function setTimestamp($unixtimestamp)
+	public function setTimestamp($timestamp)
 	{
 		$this->flag_dirty();
-		return parent::setTimestamp($unixtimestamp);
+		return parent::setTimestamp($timestamp);
 	}
 
 	public function setTimezone($timezone)
@@ -171,10 +171,10 @@ class DateTime extends \DateTime
 		return parent::setTimezone($timezone);
 	}
 
-	public function modify($modify)
+	public function modify($modifier)
 	{
 		$this->flag_dirty();
-		return parent::modify($modify);
+		return parent::modify($modifier);
 	}
 
 	public function add($interval)
