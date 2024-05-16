@@ -22,6 +22,7 @@ interface InterfaceRelationship
  * @package ActiveRecord
  * @see http://www.phpactiverecord.org/guides/associations
  */
+#[\AllowDynamicProperties]
 abstract class AbstractRelationship implements InterfaceRelationship
 {
 	/**
@@ -638,8 +639,6 @@ class HasAndBelongsToMany extends AbstractRelationship
  */
 class BelongsTo extends AbstractRelationship
 {
-    private $primary_key;
-
     public function __construct($options=array())
 	{
 		parent::__construct($options);

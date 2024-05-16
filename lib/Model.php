@@ -72,6 +72,7 @@ use Closure;
  * @see Serialization
  * @see Validations
  */
+#[\AllowDynamicProperties]
 class Model
 {
 	/**

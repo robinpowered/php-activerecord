@@ -164,7 +164,7 @@ class Table
 		if (array_key_exists('select',$options))
 			$sql->select($options['select']);
 
-		if (array_key_exists('conditions',$options))
+		if (array_key_exists('conditions',$options) && null !== $options['conditions'])
 		{
 			if (!is_hash($options['conditions']))
 			{
