@@ -96,10 +96,10 @@ class Expressions
 		$ret = "";
 		$replace = array();
 		$num_values = count($values);
-		$len = strlen($this->expressions);
+		$len = strlen($this->expressions ?? '');
 		$quotes = 0;
 
-		for ($i=0,$n=strlen($this->expressions),$j=0; $i<$n; ++$i)
+		for ($i=0,$n=strlen($this->expressions ?? ''),$j=0; $i<$n; ++$i)
 		{
 			$ch = $this->expressions[$i];
 
