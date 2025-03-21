@@ -1213,9 +1213,13 @@ class Model
 	 * @param string $name of relationship for this table
 	 * @return Model|array
 	 */
-	public function set_relationship_from_eager_load(?Model $model=null, $name)
+	public function set_relationship_from_eager_load(?Model $model, $name)
 	{
 		$table = static::table();
+
+		if (!$model) {
+			$model = null;
+		}
 
 		if (($rel = $table->get_relationship($name)))
 		{
