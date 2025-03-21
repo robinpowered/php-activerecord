@@ -84,7 +84,7 @@ class DateTime extends \DateTime
 	 *@see FORMATS
 	 * @see get_format
 	 */
-	public function format(string $format = null): string
+	public function format(?string $format = null): string
     {
 		return parent::format(self::get_format($format));
 	}
@@ -99,7 +99,7 @@ class DateTime extends \DateTime
 	 * @return string a format string
 	 *@see FORMATS
 	 */
-	public static function get_format(string $format = null): ?string
+	public static function get_format(?string $format = null): ?string
     {
 		// use default format if no format specified
 		if (!$format) {
