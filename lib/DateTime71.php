@@ -171,7 +171,7 @@ class DateTime extends \DateTime
 		return parent::setTimezone($timezone);
 	}
 
-	public function modify(string $modifier): \DateTime|false
+	public function modify(string $modifier): \DateTime
     {
 		$this->flag_dirty();
 		return parent::modify($modifier);
