@@ -22,7 +22,7 @@ interface Logger
 	 * @param array $params Any parameters associated with the message.
 	 * @return void
 	 */
-	public function log($message, array $params = null);
+	public function log($message, ?array $params = null);
 
 	/**
 	 * Signals that a previous log context (started via `log()`) is finished.
