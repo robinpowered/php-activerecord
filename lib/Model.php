@@ -663,10 +663,15 @@ class Model
 	 */
 	private function is_delegated($name, &$delegate)
 	{
+		// Table::set_delegates() leaves a `processed` flag in the delegates
+		// array, so not every element is a delegate definition.
+		if (!is_array($delegate))
+			return null;
+
 		if ($delegate['prefix'] != '')
 			$name = substr($name,strlen($delegate['prefix'])+1);
 
-		if (is_array($delegate) && in_array($name,$delegate['delegate']))
+		if (in_array($name,$delegate['delegate']))
 			return $name;
 
 		return null;
