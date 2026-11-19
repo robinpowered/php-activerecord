@@ -673,7 +673,7 @@ class RelationshipTest extends DatabaseTest
 
 		$this->assert_equals($venue->id, $events[1]->venue->id);
 		$this->assert_not_equals($venue->name, $events[1]->venue->name);
-		$this->assert_not_equals(spl_object_hash($venue), spl_object_hash($events[1]->venue));
+		$this->assert_not_equals(spl_object_id($venue), spl_object_id($events[1]->venue));
 	}
 
 	public function test_eager_loading_clones_nested_related_objects()
@@ -686,7 +686,7 @@ class RelationshipTest extends DatabaseTest
 
 		$this->assert_equals($changed_host->id, $unchanged_host->id);
 		$this->assert_not_equals($changed_host->name, $unchanged_host->name);
-		$this->assert_not_equals(spl_object_hash($changed_host), spl_object_hash($unchanged_host));
+		$this->assert_not_equals(spl_object_id($changed_host), spl_object_id($unchanged_host));
 	}
 
 	public function test_gh_23_relationships_with_joins_to_same_table_should_alias_table_name()
