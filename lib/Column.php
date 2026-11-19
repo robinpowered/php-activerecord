@@ -118,7 +118,7 @@ class Column
 		{
 			case self::STRING:	return (string)$value;
 			case self::INTEGER:	return (int)$value;
-			case self::DECIMAL:	return (double)$value;
+			case self::DECIMAL:	return (float)$value;
 			case self::DATETIME:
 			case self::DATE:
 				if (!$value)

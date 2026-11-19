@@ -198,14 +198,14 @@ abstract class AbstractRelationship implements InterfaceRelationship
 			if (isset($related_models_map[$key_to_match])) {
 				foreach ($related_models_map[$key_to_match] as $related)
 				{
-					$hash = spl_object_hash($related);
+					$object_id = spl_object_id($related);
 
-					if (isset($used_models_map[$hash]))
+					if (isset($used_models_map[$object_id]))
 						$model->set_relationship_from_eager_load(clone($related), $this->attribute_name);
 					else
 						$model->set_relationship_from_eager_load($related, $this->attribute_name);
 
-					$used_models_map[$hash] = true;
+					$used_models_map[$object_id] = true;
 				}
 			} else {
 				$model->set_relationship_from_eager_load(null, $this->attribute_name);

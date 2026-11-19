@@ -324,7 +324,7 @@ class Validations
 
 			$not_a_number_message = (isset($options['message']) ? $options['message'] : Errors::$DEFAULT_ERROR_MESSAGES['not_a_number']);
 
-			if (true === $options['only_integer'] && !is_integer($var))
+			if (true === $options['only_integer'] && !is_int($var))
 			{
 				if (!preg_match('/\A[+-]?\d+\Z/', (string)($var)))
 				{
