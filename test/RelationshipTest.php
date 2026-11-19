@@ -38,15 +38,15 @@ class RelationshipTest extends DatabaseTest
 
 		switch ($type)
 		{
-			case 'belongs_to';
+			case 'belongs_to':
 				$ret = Event::find(5);
 				break;
 
-			case 'has_one';
+			case 'has_one':
 				$ret = Employee::find(1);
 				break;
 
-			case 'has_many';
+			case 'has_many':
 				$ret = Venue::find(2);
 				break;
 		}
